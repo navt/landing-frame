@@ -42,7 +42,6 @@ if ($uri === "") {
     $controller = array_shift($parts);
 }
 
-//echo "Определён контроллер: ".$controller."\n";
 // первый символ буква?
 $fc = mb_substr($controller, 0, 1, "UTF-8");
 if (preg_match("~^[a-z]$~i", $fc)) {
@@ -67,7 +66,7 @@ $opts = [
 ];
 $db = new SafeMySQL($opts);
 
-//echo "Вызов обнаруженного контроллера";
+// вызов обнаруженного контроллера
 $class = $controller;
 $c = new $class($db);
 

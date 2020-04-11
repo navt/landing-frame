@@ -2,7 +2,7 @@
 
 class Staff extends BController {
     
-    public $sess;
+    public  $sess;
     private $user;
     private $table = "users";
     private $roles = ["Administrator", "Editor"];
@@ -76,11 +76,9 @@ class Staff extends BController {
     
     public function viewForm() {
         if ($this->user->isLogin()) {
-            header("Location: /page/blocks/");
+            $this->jump("page/blocks/");
         }
-        $page = ["title" => "Вход",
-            "description" => "Вход",
-            "keywords" => "Вход"];
+        $page = ["title" => "Вход", "description" => "", "keywords" => ""];
         $this->view(BDIR."/view/templates/back/head.php",$page);
         $this->view(BDIR."/view/templates/back/form.php", "");
         $this->view(BDIR."/view/templates/back/foot.php","");
@@ -89,9 +87,8 @@ class Staff extends BController {
     
     public function all() {
         $this->check();
-        $page = ["title" => "Все пользователи",
-            "description" => "Все пользователи",
-            "keywords" => "Все пользователи"];
+        $page = ["title" => "Все пользователи", "description" => "", "keywords" => ""];
+
         $users = $this->db->getAll("SELECT * FROM ?n", $this->table);
         
         $this->view(BDIR."/view/templates/back/head.php",$page);
@@ -101,9 +98,8 @@ class Staff extends BController {
     
     public function create() {
         $this->check();
-        $page = ["title" => "Создание пользователя",
-            "description" => "Создание пользователя",
-            "keywords" => "пользователь,создание"];
+        $page = ["title" => "Создание пользователя", "description" => "", "keywords" => ""];
+
         $this->view(BDIR."/view/templates/back/head.php",$page);
         $this->view(BDIR."/view/templates/back/createUser.php", "");
         $this->view(BDIR."/view/templates/back/foot.php","");
