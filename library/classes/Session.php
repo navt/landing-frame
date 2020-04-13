@@ -7,7 +7,7 @@ class Session {
                 trigger_error(__METHOD__.": Механизм сессий отключен.", E_USER_ERROR);
                 break;
             case PHP_SESSION_NONE:
-                $name = strtoupper(str_replace(".", "", $_SERVER["SERVER_NAME"]));
+                $name = strtoupper(str_replace([".", "-"], ["", ""], $_SERVER["SERVER_NAME"]));
                 session_name($name);
                 session_start(["cookie_lifetime" => 7200]);
                 // сессия жива, но ip адрес уже переменился - алярм!
