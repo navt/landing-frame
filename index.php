@@ -4,7 +4,7 @@ error_reporting(E_ALL);
 ini_set('display_errors', true);
 
 $base = function() {
-    $protocol = filter_input(INPUT_SERVER, "REQUEST_SCHEME", FILTER_SANITIZE_STRING);
+    $protocol = filter_input(INPUT_SERVER, "REQUEST_SCHEME");
     $host = filter_input(INPUT_SERVER, "SERVER_NAME", FILTER_SANITIZE_STRING);
     if ($protocol === "http") {
         $protocol = "http://";
