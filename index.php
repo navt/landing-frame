@@ -4,8 +4,9 @@ error_reporting(E_ALL);
 ini_set('display_errors', true);
 
 $base = function() {
-    $protocol = filter_input(INPUT_SERVER, "REQUEST_SCHEME");
-    $host = filter_input(INPUT_SERVER, "SERVER_NAME", FILTER_SANITIZE_STRING);
+    $protocol = $_SERVER["REQUEST_SCHEME"];
+    $host = filter_var($_SERVER["SERVER_NAME"], FILTER_SANITIZE_STRING);
+
     if ($protocol === "http") {
         $protocol = "http://";
     } else {
@@ -28,7 +29,7 @@ spl_autoload_register(function ($class) {
     }
 });
 
-$uri = filter_input(INPUT_SERVER, "REQUEST_URI", FILTER_SANITIZE_STRING);
+$uri = filter_var($_SERVER["REQUEST_URI"], FILTER_SANITIZE_STRING); 
 $uri = rawurldecode($uri);
 
 $uri = trim($uri, "/\\");
