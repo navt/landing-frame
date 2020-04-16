@@ -5,6 +5,7 @@
                 <ul class="uk-navbar-nav">
                     <li><a href="page/create/">Создать блок</a></li>
                     <li><a href="staff/all/">Пользователи</a></li>
+                    <li><a href="main/">Главная</a></li>
                     <li><a href="staff/logout/">Выход</a></li>
                 </ul>
             </div>
@@ -25,7 +26,13 @@
                 <tr>
                     <td><?php echo $block["id"];?></td>
                     <td><?php echo $block["ucode"];?></td>
-                    <td><?php echo $block["dictum"];?></td>
+                    <td><?php 
+                            if (strpos($block["dictum"], "src=") !== false) {
+                                Hlp::img($block["dictum"], ["width"=>"200"]);
+                            } else {
+                                echo $block["dictum"];
+                            }?>
+                    </td>
                     <td>
                         <a href="/page/edit/<?php echo $block["id"];?>" class="uk-icon-link uk-margin-small-right" uk-icon="file-edit" title="Редактировать"></a>
                         <a href="/page/delete/<?php echo $block["id"];?>" class="uk-icon-link" uk-icon="trash" title="Удалить"></a>

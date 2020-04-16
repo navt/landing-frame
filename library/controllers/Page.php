@@ -63,6 +63,17 @@ class Page extends BController {
     
     public function delete($id) {
         $this->check();
+        $row = $this->db->getRow("SELECT * FROM ?n WHERE id=?i", $this->table, $id);
+
+        // если это изображение, то нужно удалить ещё и файл
+        if (strpos($row["dictum"], "src=") !== false) {
+            $attr = parse_ini_string($row["dictum"]);
+            $absolute = BDIR. "/{$attr["src"]}";
+            if (file_exists($absolute)) {
+                unlink($absolute);
+            }
+        }
+        
         $this->db->query("DELETE FROM ?n WHERE id=?i", $this->table, $id);
         $this->jump("page/blocks/");
     }
@@ -72,6 +83,44 @@ class Page extends BController {
         $fields = ["ucode", "dictum"];
         $data = $this->db->filterArray($_POST, $fields);
         $this->db->query("UPDATE ?n SET ?u WHERE id = ?i", $this->table, $data, $_POST['id']);
+        $this->jump("page/blocks/");
+    }
+    
+    public function saveFile() {
+        $this->check();
+        $fields = ["ucode", "maxFileSize"];
+        $data = $this->db->filterArray($_POST, $fields);
+        if ($data["ucode"] == "" || $data["maxFileSize"] == "") {
+            $this->sess->msg = "Поля должны быть заполнены";
+            $this->jump("page/create/");
+        }
+        $file = (object)$_FILES["userfile"];
+        if ($file->error !== 0) {
+            $this->sess->msg = "Код ошибки при загрузке файла $file->error";
+            $this->jump("page/create/");
+        }
+        if ($file->size > $data["maxFileSize"]) {
+            $this->sess->msg = "Размер файла превосходит значение, переданное в форме";
+            $this->jump("page/create/");
+        }
+        // является ли файл изображением
+        $ext = pathinfo($file->name, PATHINFO_EXTENSION);
+        if (Hlp::isImage($ext) === false) {
+            $this->sess->msg = "Неразрешенное расширение файла";
+            $this->jump("page/create/");
+        }
+        unset($data["maxFileSize"]);
+        
+        $relative = sprintf("%s%s.%s", "files/images/", $data["ucode"], $ext);
+        $absolute = BDIR. "/{$relative}";
+        
+        if (move_uploaded_file($file->tmp_name, $absolute) === true) {
+            $img["src"] = $relative;
+            $img["alt"] = $data["ucode"];
+            $data["dictum"] = Hlp::arr2ini($img);
+        }
+
+        $this->db->query("INSERT INTO ?n SET ?u", $this->table, $data);
         $this->jump("page/blocks/");
     }
     

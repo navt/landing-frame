@@ -8,7 +8,7 @@
                 </div>
                 <label class="uk-form-label">dictum</label>
                 <div class="uk-margin">
-                    <textarea class="uk-textarea" rows="2" name="dictum"><?php echo $dictum;?></textarea>
+                    <textarea class="uk-textarea" rows="5" name="dictum"><?php echo $dictum;?></textarea>
                 </div>
             </fieldset>
             <button class="uk-button uk-button-primary uk-button-small">Сохранить</button>
