@@ -118,6 +118,9 @@ class Page extends BController {
             $img["src"] = $relative;
             $img["alt"] = $data["ucode"];
             $data["dictum"] = Hlp::arr2ini($img);
+        } else {
+            $this->sess->msg = "Файл не загужен на сервер";
+            $this->jump("page/create/");
         }
 
         $this->db->query("INSERT INTO ?n SET ?u", $this->table, $data);
