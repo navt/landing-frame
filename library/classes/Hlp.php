@@ -11,7 +11,7 @@ class Hlp {
     }
     
     public static function isImage($ext) {
-        $patterns = ["~^jpg|jpeg$~i", "~^png$~i", "~^gif$~i"];
+        $patterns = ["~^jpg|jpeg$~i", "~^png$~i", "~^gif$~i", "~^svg$~i"];
         foreach ($patterns as $pattern) {
             if (preg_match($pattern, $ext)) {
                 return true;
