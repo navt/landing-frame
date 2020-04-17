@@ -69,7 +69,7 @@ $db = new SafeMySQL($opts);
 
 // вызов обнаруженного контроллера
 $class = $controller;
-$c = new $class($db);
+$c = new $class($db, $conf);
 
 $method = array_shift($parts);
 if (empty($method)) {

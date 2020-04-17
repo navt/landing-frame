@@ -34,7 +34,7 @@
                     <label class="uk-form-label">dictum (изображение)&nbsp;</label>
                     <div class="uk-margin">
                         <!-- Поле maxFileSize должно быть указано до поля загрузки файла -->
-                        <input type="hidden" name="maxFileSize" value="50000000" />
+                        <input type="hidden" name="maxFileSize" value="<?php echo $this->conf->maxFileSize;?> " />
                         <!-- Название элемента input определяет имя в массиве $_FILES -->
                         <input class="uk-form-small" name="userfile" type="file" />
                     </div>

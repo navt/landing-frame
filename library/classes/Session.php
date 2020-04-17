@@ -1,6 +1,12 @@
 <?php
 class Session {
-
+    
+    private $lifeTime;
+    
+    public function __construct($lifeTime=1440) {
+        $this->lifeTime = $lifeTime;
+    }
+    
     protected function tryRun() {
         switch (session_status()) {
             case PHP_SESSION_DISABLED;
@@ -9,7 +15,7 @@ class Session {
             case PHP_SESSION_NONE:
                 $name = strtoupper(str_replace([".", "-"], ["", ""], $_SERVER["SERVER_NAME"]));
                 session_name($name);
-                session_start(["cookie_lifetime" => 7200]);
+                session_start(["cookie_lifetime" => $this->lifeTime]);
                 // сессия жива, но ip адрес уже переменился - алярм!
                 if (isset($this->ip) && ($this->ip !== $_SERVER["REMOTE_ADDR"])) {
                     http_response_code(403);

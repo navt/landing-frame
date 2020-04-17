@@ -4,9 +4,9 @@ class Page extends BController {
     
     private $table = "blocks";
     
-    public function __construct($db) {
-        parent::__construct($db);
-        $this->sess = new Session();
+    public function __construct($db, $conf) {
+        parent::__construct($db, $conf);
+        $this->sess = new Session($this->conf->cookieLifeTime);
         $this->user = new Users($this->sess);
     }
     
