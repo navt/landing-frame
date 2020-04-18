@@ -64,16 +64,26 @@ class Page extends BController {
     public function delete($id) {
         $this->check();
         $row = $this->db->getRow("SELECT * FROM ?n WHERE id=?i", $this->table, $id);
-
-        // если это изображение, то нужно удалить ещё и файл
-        if (strpos($row["dictum"], "src=") !== false) {
+        
+        // если это какой либо файл, то нужно его удалить
+        if (preg_match("~(src=|href=)~", $row["dictum"], $matches)) {
+            $flag = $matches[0];
             $attr = parse_ini_string($row["dictum"]);
-            $absolute = BDIR. "/{$attr["src"]}";
+            switch ($flag) {
+                case "src=":
+                    $absolute = BDIR. "/{$attr["src"]}";
+                    break;
+                case "href=":
+                    $absolute = BDIR. "/{$attr["href"]}";
+                    break;
+                default:
+                    break;
+            }
             if (file_exists($absolute)) {
                 unlink($absolute);
             }
         }
-        
+
         $this->db->query("DELETE FROM ?n WHERE id=?i", $this->table, $id);
         $this->jump("page/blocks/");
     }
@@ -103,21 +113,31 @@ class Page extends BController {
             $this->sess->msg = "Размер файла превосходит значение, переданное в форме";
             $this->jump("page/create/");
         }
-        // является ли файл изображением
+        // является файл изображением или файлом с разрешенным расширением
         $ext = pathinfo($file->name, PATHINFO_EXTENSION);
-        if (Hlp::isImage($ext) === false) {
-            $this->sess->msg = "Неразрешенное расширение файла";
+        if (Hlp::isImage($ext) === true) {
+            $dir = "files/images/";
+        } elseif (Hlp::allowType($ext) === true) {
+            $dir = "files/others/";
+        } else {
+            $this->sess->msg = "Неразрешенное расширение файла $ext";
             $this->jump("page/create/");
         }
         unset($data["maxFileSize"]);
         
-        $relative = sprintf("%s%s.%s", "files/images/", $data["ucode"], $ext);
+        $relative = sprintf("%s%s.%s", $dir, $data["ucode"], $ext);
         $absolute = BDIR. "/{$relative}";
         
         if (move_uploaded_file($file->tmp_name, $absolute) === true) {
-            $img["src"] = $relative;
-            $img["alt"] = $data["ucode"];
-            $data["dictum"] = Hlp::arr2ini($img);
+            if (Hlp::isImage($ext) === true) {
+                $img["src"] = $relative;
+                $img["alt"] = $data["ucode"];
+                $data["dictum"] = Hlp::arr2ini($img);
+            } else {
+                $f["href"] = $relative;
+                $f["text"] = "Скачать {$data["ucode"]}";
+                $data["dictum"] = Hlp::arr2ini($f);
+            }
         } else {
             $this->sess->msg = "Файл не загужен на сервер";
             $this->jump("page/create/");

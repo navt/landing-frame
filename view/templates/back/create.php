@@ -23,7 +23,7 @@
         </div>    
 
         <button class="uk-button uk-button-default uk-button-small uk-margin" type="button" 
-                uk-toggle="target: .add-any">Или добавить изображение</button>
+                uk-toggle="target: .add-any">Или добавить изображение / файл</button>
         <div class="add-any" hidden>
             <form enctype="multipart/form-data" method="post" action="page/saveFile/">
                 <fieldset class="uk-fieldset uk-form-label">

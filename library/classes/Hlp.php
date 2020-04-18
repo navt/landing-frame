@@ -11,7 +11,16 @@ class Hlp {
     }
     
     public static function isImage($ext) {
-        $patterns = ["~^jpg|jpeg$~i", "~^png$~i", "~^gif$~i", "~^svg$~i"];
+        $patterns = ["~^(jpg|jpeg)$~i", "~^png$~i", "~^gif$~i", "~^svg$~i"];
+        return self::compare($patterns, $ext);
+    }
+    
+    public static function allowType($ext) {
+        $patterns = ["~^(xls|xlsx)$~i", "~^pdf$~i"];
+        return self::compare($patterns, $ext);
+    }
+    
+    private static function compare($patterns, $ext) {
         foreach ($patterns as $pattern) {
             if (preg_match($pattern, $ext)) {
                 return true;
@@ -19,7 +28,7 @@ class Hlp {
         }
         return false;
     }
-    
+
     // https://stackoverflow.com/questions/17316873/convert-array-to-an-ini-file
     public static function arr2ini(array $arr) {
         $out = "";
@@ -37,5 +46,17 @@ class Hlp {
             $out .= " $k=\"$v\"";
         }
         echo sprintf("<img%s>",$out);
+    }
+    
+    public static function a($ini, $add=[]) {
+        $attr = parse_ini_string($ini);
+        $attr = array_merge($attr, $add);
+        $text = $attr["text"];
+        unset($attr["text"]);
+        $out = "";
+        foreach ($attr as $k => $v) {
+            $out .= " $k=\"$v\"";
+        }
+        echo sprintf("<a%s>%s</a>",$out, $text);
     }
 }

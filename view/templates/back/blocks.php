@@ -29,6 +29,8 @@
                     <td><?php 
                             if (strpos($block["dictum"], "src=") !== false) {
                                 Hlp::img($block["dictum"], ["width"=>"200"]);
+                            } elseif (strpos($block["dictum"], "href=") !== false) {
+                                Hlp::a($block["dictum"]);
                             } else {
                                 echo $block["dictum"];
                             }?>
