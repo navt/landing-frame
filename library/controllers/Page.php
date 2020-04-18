@@ -76,8 +76,6 @@ class Page extends BController {
                 case "href=":
                     $absolute = BDIR. "/{$attr["href"]}";
                     break;
-                default:
-                    break;
             }
             if (file_exists($absolute)) {
                 unlink($absolute);
@@ -98,10 +96,9 @@ class Page extends BController {
     
     public function saveFile() {
         $this->check();
-        $fields = ["ucode", "maxFileSize"];
-        $data = $this->db->filterArray($_POST, $fields);
-        if ($data["ucode"] == "" || $data["maxFileSize"] == "") {
-            $this->sess->msg = "Поля должны быть заполнены";
+        $data = $this->db->filterArray($_POST, ["ucode"]);
+        if ($data["ucode"] == "") {
+            $this->sess->msg = "Поле ucode должно быть заполнено";
             $this->jump("page/create/");
         }
         $file = (object)$_FILES["userfile"];
@@ -109,8 +106,8 @@ class Page extends BController {
             $this->sess->msg = "Код ошибки при загрузке файла $file->error";
             $this->jump("page/create/");
         }
-        if ($file->size > $data["maxFileSize"]) {
-            $this->sess->msg = "Размер файла превосходит значение, переданное в форме";
+        if ($file->size > $this->conf->maxFileSize) {
+            $this->sess->msg = "Размер файла более {$this->conf->maxFileSize}";
             $this->jump("page/create/");
         }
         // является файл изображением или файлом с разрешенным расширением
@@ -123,7 +120,6 @@ class Page extends BController {
             $this->sess->msg = "Неразрешенное расширение файла $ext";
             $this->jump("page/create/");
         }
-        unset($data["maxFileSize"]);
         
         $relative = sprintf("%s%s.%s", $dir, $data["ucode"], $ext);
         $absolute = BDIR. "/{$relative}";

@@ -33,13 +33,13 @@
                     </div>
                     <label class="uk-form-label">dictum (изображение)&nbsp;</label>
                     <div class="uk-margin">
-                        <!-- Поле maxFileSize должно быть указано до поля загрузки файла -->
-                        <input type="hidden" name="maxFileSize" value="<?php echo $this->conf->maxFileSize;?> " />
+                        <!-- Поле MAX_FILE_SIZE должно быть указано до поля загрузки файла -->
+                        <input type="hidden" name="MAX_FILE_SIZE" value="<?php echo $this->conf->maxFileSize;?> " />
                         <!-- Название элемента input определяет имя в массиве $_FILES -->
                         <input class="uk-form-small" name="userfile" type="file" />
                     </div>
                 </fieldset>
-                <button class="uk-button uk-button-primary uk-button-small">Сохранить изображение</button>
+                <button class="uk-button uk-button-primary uk-button-small">Сохранить изображение / файл</button>
                 <a class="uk-button uk-button-primary uk-button-small" href="page/blocks/">Отменить</a>
             </form>
         </div>
