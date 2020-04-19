@@ -17,6 +17,8 @@ class Session {
                 session_name($name);
                 session_start(["cookie_lifetime" => $this->lifeTime]);
                 // сессия жива, но ip адрес уже переменился - алярм!
+                // это будет работать и при динамическом ip-адресе, в этом случае
+                // нужна коррекция кода
                 if (isset($this->ip) && ($this->ip !== $_SERVER["REMOTE_ADDR"])) {
                     http_response_code(403);
                     exit("Ваш ip адрес внезапно изменился!");

@@ -43,10 +43,7 @@ class Hlp {
     public static function img($ini, $add=[]) {
         $attr = parse_ini_string($ini);
         $attr = array_merge($attr, $add);
-        $out = "";
-        foreach ($attr as $k => $v) {
-            $out .= " $k=\"$v\"";
-        }
+        $out = self::inside($attr);
         echo sprintf("<img%s>",$out);
     }
     
@@ -56,10 +53,15 @@ class Hlp {
         $attr = array_merge($attr, $add);
         $text = $attr["text"];
         unset($attr["text"]);
+        $out = self::inside($attr);
+        echo sprintf("<a%s>%s</a>",$out, $text);
+    }
+    
+    private static function inside(array $attr) {
         $out = "";
         foreach ($attr as $k => $v) {
             $out .= " $k=\"$v\"";
         }
-        echo sprintf("<a%s>%s</a>",$out, $text);
+        return $out;
     }
 }
