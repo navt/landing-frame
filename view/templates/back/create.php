@@ -31,7 +31,7 @@
                     <div class="uk-margin">
                         <input class="uk-input uk-form-width-large" type="text" name="ucode" value="">
                     </div>
-                    <label class="uk-form-label">dictum (изображение)&nbsp;</label>
+                    <label class="uk-form-label">dictum (изображение / файл)&nbsp;</label>
                     <div class="uk-margin">
                         <!-- Поле MAX_FILE_SIZE должно быть указано до поля загрузки файла -->
                         <input type="hidden" name="MAX_FILE_SIZE" value="<?php echo $this->conf->maxFileSize;?> " />

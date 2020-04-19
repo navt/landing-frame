@@ -15,6 +15,7 @@ class Hlp {
         return self::compare($patterns, $ext);
     }
     
+    // дообавьте сюда свои паттерны, если нужно загружать файлы с другими расширениями
     public static function allowType($ext) {
         $patterns = ["~^(xls|xlsx)$~i", "~^pdf$~i"];
         return self::compare($patterns, $ext);
@@ -38,6 +39,7 @@ class Hlp {
         return $out;
     }
     
+    // пример использования в /view/front/page.php
     public static function img($ini, $add=[]) {
         $attr = parse_ini_string($ini);
         $attr = array_merge($attr, $add);
@@ -48,6 +50,7 @@ class Hlp {
         echo sprintf("<img%s>",$out);
     }
     
+    // пример использования в /view/front/page.php
     public static function a($ini, $add=[]) {
         $attr = parse_ini_string($ini);
         $attr = array_merge($attr, $add);

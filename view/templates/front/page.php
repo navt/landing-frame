@@ -14,8 +14,12 @@
     <body>
         <div class="uk-container">
             <h1><?php echo $h1;?></h1>
+            <!-- вывод блока текста -->
             <p><?php echo $readme;?></p>
+            <!-- вывод изображения -->
             <p><?php Hlp::img($image_dog, ["title"=>"Собака"]); ?></p>
+            <!-- вывод ссылки на скачивание файла -->
+            <p><?php Hlp::a($hello); ?></p>
             <p class="uk-text-center">&COPY; <?php echo date("Y")." ".$company;?> </p>
         </div>
     </body>

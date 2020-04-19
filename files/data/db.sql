@@ -7,7 +7,7 @@ START TRANSACTION;
 SET time_zone = "+00:00";
 
 --
--- База данных: `land_page`
+-- База данных: `page_gen`
 --
 
 -- --------------------------------------------------------
@@ -33,7 +33,8 @@ INSERT INTO `blocks` (`id`, `ucode`, `dictum`) VALUES
 (5, 'h1', 'Каркас для посадочной страницы'),
 (6, 'readme', '<h3>Вступление</h3>\r\nШаблон (`/view/front/tamplates/page.php`) представляет собой обычный html+css+js.<br>\r\n\r\nПриложение умышленно написано просто. Все константы определены в /index.php.<br>\r\nЕсли будет нужно расширить функциональность приложения, а это почти наверняка будет<br>\r\nвам нужно, создайте свои контроллеры.<br>\r\n\r\n<h3>Как развернуть приложение</h3>\r\n\r\nИмпортируйте `/files/data/db.sql` в вашу базу данных.<br>\r\nСодержимое данного репозитория положите в корень вашего сайта.<br> \r\nВпишите в `/library/config/config.php` значения для вашей базы данных.<br>\r\nПерейдите по адресу `yoursite.com/staff/viewForm`, используйте demo@demo.ru / qwerty<br>\r\nдля входа в админ.часть.'),
 (7, 'company', '&laquo;Побочный эффект&raquo;'),
-(18, 'image_dog', 'src=\"files/images/image_dog.jpg\"\r\nalt=\"image_dog\"\r\nwidth=\"400\"\r\n\r\n');
+(26, 'image_dog', 'src=\"files/images/image_dog.jpg\"\r\nalt=\"image_dog\"\r\nwidth=\"480\"\r\n'),
+(27, 'hello', 'href=\"files/others/hello.pdf\"\r\ntext=\"Скачать файл hello.pdf\"\r\n');
 
 -- --------------------------------------------------------
 
@@ -80,7 +81,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT для таблицы `blocks`
 --
 ALTER TABLE `blocks`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- AUTO_INCREMENT для таблицы `users`
