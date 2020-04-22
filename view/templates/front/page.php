@@ -16,12 +16,19 @@
             <h1><?php echo $h1;?></h1>
             <!-- вывод блока текста -->
             <p><?php echo $readme;?></p>
+            
+            <h4>Картинка</h4>
             <!-- вывод изображения -->
             <p><?php Hlp::img($image_dog, ["title"=>"Собака"]); ?></p>
+            <div uk-lightbox>
+                <?php Hlp::a($a_image_dog,["class"=>"uk-button uk-button-default uk-button-small"]); ?>
+            </div>
+            
+            <h4>Ссылка на скачивание файла</h4>
             <!-- вывод ссылки на скачивание файла -->
             <p><?php Hlp::a($hello); ?></p>
             
-            <h4>Заказать обратный звонок.</h4>
+            <h4>Заказать обратный звонок</h4>
             <!-- заготовка формы -->
             <form method="post" action="main/dummy/">
                 <label class="uk-form-label">Введите ваш телефон. &nbsp;</label>
