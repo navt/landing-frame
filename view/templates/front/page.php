@@ -12,7 +12,7 @@
         <script src="view/js/uikit-icons.min.js"></script>
     </head>
     <body>
-        <div class="uk-container">
+        <div class="uk-container uk-margin-top uk-margin-bottom">
             <h1><?php echo $h1;?></h1>
             <!-- вывод блока текста -->
             <p><?php echo $readme;?></p>
@@ -20,6 +20,16 @@
             <p><?php Hlp::img($image_dog, ["title"=>"Собака"]); ?></p>
             <!-- вывод ссылки на скачивание файла -->
             <p><?php Hlp::a($hello); ?></p>
+            
+            <h4>Заказать обратный звонок.</h4>
+            <!-- заготовка формы -->
+            <form method="post" action="main/dummy/">
+                <label class="uk-form-label">Введите ваш телефон. &nbsp;</label>
+                <input class="uk-input uk-form-small uk-form-width-medium" type="text" name="phone" >&nbsp; 
+                <button class="uk-button uk-button-primary uk-button-small" name="button" value="send">
+                    Заказать
+                </button>
+            </form>
             <p class="uk-text-center">&COPY; <?php echo date("Y")." ".$company;?> </p>
         </div>
     </body>
