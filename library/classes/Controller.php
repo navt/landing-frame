@@ -12,4 +12,9 @@ abstract class Controller {
             trigger_error(__METHOD__.": Нет файла шаблона.", E_USER_ERROR);
         }
     }
+    
+    protected function jump($uri = "", $code = 302) {
+       header("Location: ".BURI.$uri, true, $code);
+       exit(0);
+    }
 }

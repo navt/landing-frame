@@ -4,10 +4,10 @@ class Page extends BController {
     
     private $table = "blocks";
     
-    public function __construct($db, $conf) {
-        parent::__construct($db, $conf);
-        $this->sess = new Session($this->conf->cookieLifeTime);
-        $this->user = new Users($this->sess);
+    public function __construct($conf) {
+        parent::__construct($conf);
+        $this->sess = $this->conf->getSession();
+        $this->user = $this->conf->getUser();
     }
     
     private function check() {

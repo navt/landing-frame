@@ -58,18 +58,10 @@ if (file_exists(CTL_DIR.$controller.".php") === false) {
 }
 
 $conf = new Config();
-$opts = [
-    'host'    => $conf->host,
-    'user'    => $conf->user,
-    'pass'    => $conf->pass,
-    'db'      => $conf->db,
-    'charset' => $conf->charset
-];
-$db = new SafeMySQL($opts);
 
 // вызов обнаруженного контроллера
 $class = $controller;
-$c = new $class($db, $conf);
+$c = new $class($conf);
 
 $method = array_shift($parts);
 if (empty($method)) {

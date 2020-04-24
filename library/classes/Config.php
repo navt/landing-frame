@@ -27,4 +27,29 @@ class Config {
     public function __set($key, $value) {
         $this->data[$key] = $value;
     }
+    
+    public function getDB() {
+        $opts = [
+            'host'    => $this->host,
+            'user'    => $this->user,
+            'pass'    => $this->pass,
+            'db'      => $this->db,
+            'charset' => $this->charset
+        ];
+
+        return new SafeMySQL($opts);
+    }
+    
+    public function getSession() {
+        $this->session = new Session($this->cookieLifeTime);
+        return $this->session;
+    }
+    
+    public function getUser() {
+        if (!isset($this->data["session"])) {
+            $this->getSession();
+        }
+        
+        return new Users($this->session);
+    }
 }
