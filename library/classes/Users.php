@@ -22,8 +22,8 @@ class Users {
     
     public function isLogin() {
         $flag = false;
-        if ($this->items !== []) {
-            if (is_numeric($this->items['id']) && filter_var($this->items['email'], FILTER_VALIDATE_EMAIL)) {
+        if ($this->items != []) {
+            if (is_numeric($this->id) && filter_var($this->email, FILTER_VALIDATE_EMAIL)) {
                 $flag = true;
             } 
         }
@@ -32,7 +32,7 @@ class Users {
     
     public function isAdmin() {
         $flag = false;
-        if ($this->isLogin() && $this->items['role'] === 'Administrator') {
+        if ($this->isLogin() && $this->role === 'Administrator') {
             $flag = true;
         }
         return $flag;
