@@ -47,7 +47,7 @@ class Config {
     
     public function getUser() {
         if (!isset($this->data["session"])) {
-            $this->getSession();
+            trigger_error(__METHOD__.": Без сессии не работает.", E_USER_ERROR);
         }
         
         return new Users($this->session);
