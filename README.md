@@ -9,7 +9,8 @@ with admin part.<br>
 The idea of the application is simple, pairs are written to the table: a unique name and a fragment of text<br>
 (table blocks). It is important that the unique name begins with a letter. Further information from<br>
 the table turns into separate variables of the PHP code, which are displayed in the right places of your<br>
-template.<br>
+template. From admin. parts have the ability to upload images and files intended for download.<br>
+In the template they are displayed by helpers.<br>
 The template (`/view/tamplates/front/page.php`) is a regular html+css+js.<br>
 
 The application is intentionally written simply. All constants are defined in `/index.php`.<br>
