@@ -7,6 +7,11 @@ class Users {
     public function __construct(Session $sess) {
         $this->sess = $sess;
         $this->loadItems();
+        if (!isset($this->items["token"])) {
+            $bytes = openssl_random_pseudo_bytes(12);
+            $this->items["token"] = bin2hex($bytes);
+            $this->sess->user = $this->items;
+        }
     }
     
     private function loadItems() {
@@ -36,5 +41,15 @@ class Users {
             $flag = true;
         }
         return $flag;
+    }
+    
+    public function tokenLive() {
+        if ($_POST !== []) {
+            $in = filter_input(INPUT_POST, "token");
+            if ($in !== $this->token) {
+                http_response_code(403);
+                exit("Доступ закрыт.");
+            }
+        }
     }
 }

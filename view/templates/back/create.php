@@ -17,6 +17,7 @@
                         <textarea class="uk-textarea" rows="4" name="dictum"></textarea>
                     </div>
                 </fieldset>
+                <input type="hidden" name="token" value="<?php echo $this->user->token; ?>">
                 <button class="uk-button uk-button-primary uk-button-small">Сохранить блок</button>
                 <a class="uk-button uk-button-primary uk-button-small" href="page/blocks/">Отменить</a>
             </form>
@@ -39,6 +40,7 @@
                         <input class="uk-form-small" name="userfile" type="file" />
                     </div>
                 </fieldset>
+                <input type="hidden" name="token" value="<?php echo $this->user->token; ?>">
                 <button class="uk-button uk-button-primary uk-button-small">Сохранить изображение / файл</button>
                 <a class="uk-button uk-button-primary uk-button-small" href="page/blocks/">Отменить</a>
             </form>

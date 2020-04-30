@@ -25,6 +25,7 @@
                 </div>
                 
             </fieldset>
+            <input name="token" type="hidden" value="<?php echo $this->user->token; ?>">
             <button class="uk-button uk-button-primary uk-button-small">Сохранить</button>
             <a class="uk-button uk-button-primary uk-button-small" href="staff/all/">Отменить</a>
         </form>

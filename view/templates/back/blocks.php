@@ -39,6 +39,7 @@
                         <a href="/page/edit/<?php echo $block["id"];?>" class="uk-icon-link uk-margin-small-right" uk-icon="file-edit" title="Редактировать"></a>
                         <form style="display: inline;" method="post" action="page/delete/">
                             <input name="id" type="hidden" value="<?php echo $block["id"];?>">
+                            <input name="token" type="hidden" value="<?php echo $this->user->token; ?>">
                             <button class="uk-button uk-button-link" uk-icon="trash" title="Удалить"></button>
                         </form>
                     </td>

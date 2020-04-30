@@ -3,7 +3,7 @@
 class Staff extends BController {
     
     public  $sess;
-    private $user;
+    protected $user;
     private $table = "users";
     private $roles = ["Administrator", "Editor"];
 
@@ -17,6 +17,7 @@ class Staff extends BController {
         if ($this->user->isAdmin() === false) {
             $this->viewForm();
         }
+        $this->user->tokenLive();
     }
     
     public function index() {

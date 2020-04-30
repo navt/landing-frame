@@ -11,6 +11,7 @@
                     <textarea class="uk-textarea" rows="5" name="dictum"><?php echo $dictum;?></textarea>
                 </div>
             </fieldset>
+            <input name="token" type="hidden" value="<?php echo $this->user->token; ?>">
             <button class="uk-button uk-button-primary uk-button-small">Сохранить</button>
             <a class="uk-button uk-button-primary uk-button-small" href="page/blocks/">Отменить</a>
         </form>

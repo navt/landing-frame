@@ -14,6 +14,7 @@ class Page extends BController {
         if ($this->user->isLogin() === false) {
             $this->jump("staff/viewForm/");
         }
+        $this->user->tokenLive();
     }
     
     public function create() {
