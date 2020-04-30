@@ -61,8 +61,9 @@ class Page extends BController {
         $this->jump("page/blocks/");
     }
     
-    public function delete($id) {
+    public function delete() {
         $this->check();
+        $id = filter_input(INPUT_POST, "id", FILTER_VALIDATE_INT);
         $row = $this->db->getRow("SELECT * FROM ?n WHERE id=?i", $this->table, $id);
         
         // если это какой либо файл, то нужно его удалить

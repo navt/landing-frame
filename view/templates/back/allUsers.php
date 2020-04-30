@@ -30,7 +30,10 @@
                     <td>
                         <a href="/staff/edit/<?php echo $user["id"];?>" class="uk-icon-link uk-margin-small-right" uk-icon="file-edit" title="Редактировать"></a>
                         <a href="/staff/refresh/<?php echo $user["id"];?>" class="uk-icon-link" uk-icon="refresh" title="Изменить пароль"></a>
-                        <a href="/staff/delete/<?php echo $user["id"];?>" class="uk-icon-link" uk-icon="trash" title="Удалить"></a>
+                        <form style="display: inline;" method="post" action="staff/delete/">
+                            <input name="id" type="hidden" value="<?php echo $user["id"];?>">
+                            <button class="uk-button uk-button-link" uk-icon="trash" title="Удалить"></button>
+                        </form>
                     </td>
                 </tr>
                 <?php endforeach;?>

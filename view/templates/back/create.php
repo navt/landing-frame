@@ -14,7 +14,7 @@
                     </div>
                     <label class="uk-form-label">dictum (текстовый блок)</label>
                     <div class="uk-margin">
-                        <textarea class="uk-textarea" rows="2" name="dictum"></textarea>
+                        <textarea class="uk-textarea" rows="4" name="dictum"></textarea>
                     </div>
                 </fieldset>
                 <button class="uk-button uk-button-primary uk-button-small">Сохранить блок</button>

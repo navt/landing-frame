@@ -8,7 +8,7 @@ class Config {
         $this->data = $this->fromFile();
     }
     
-    public function fromFile() {
+    private function fromFile() {
         $file = BDIR."/library/config/config.php";
         if (file_exists($file)) {
             return include $file;

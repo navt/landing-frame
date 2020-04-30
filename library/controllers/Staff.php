@@ -130,8 +130,9 @@ class Staff extends BController {
         $this->jump("staff/all/");
     }
     
-    public function delete($id) {
+    public function delete() {
         $this->check();
+        $id = filter_input(INPUT_POST, "id", FILTER_VALIDATE_INT);
         $this->db->query("DELETE FROM ?n WHERE id=?i", $this->table, $id);
         $this->jump("staff/all/");
     }

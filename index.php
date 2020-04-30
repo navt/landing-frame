@@ -72,10 +72,13 @@ if (is_callable(array($c, $method)) == false) {
     $ac->p404();
 }
 
-if ($parts == []) {
-   $c->$method(); 
-} elseif (count($parts) === 1) {
-    $c->$method($parts[0]); 
-} else {
-    $c->$method($parts);
+switch (count($parts)) {
+    case 0:
+        $c->$method();
+        break;
+    case 1:
+        $c->$method($parts[0]);
+        break;
+    default:
+        $c->$method($parts);
 }

@@ -37,7 +37,10 @@
                     </td>
                     <td>
                         <a href="/page/edit/<?php echo $block["id"];?>" class="uk-icon-link uk-margin-small-right" uk-icon="file-edit" title="Редактировать"></a>
-                        <a href="/page/delete/<?php echo $block["id"];?>" class="uk-icon-link" uk-icon="trash" title="Удалить"></a>
+                        <form style="display: inline;" method="post" action="page/delete/">
+                            <input name="id" type="hidden" value="<?php echo $block["id"];?>">
+                            <button class="uk-button uk-button-link" uk-icon="trash" title="Удалить"></button>
+                        </form>
                     </td>
                 </tr>
                 <?php endforeach;?>
