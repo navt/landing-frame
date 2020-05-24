@@ -29,6 +29,12 @@ spl_autoload_register(function ($class) {
     }
 });
 
+// ошибка 404
+$p404 = function() {
+    $ac = new Answer();
+    $ac->p404(); 
+};
+
 $uri = filter_var($_SERVER["REQUEST_URI"], FILTER_SANITIZE_STRING); 
 $uri = rawurldecode($uri);
 
@@ -48,13 +54,11 @@ $fc = mb_substr($class, 0, 1, "UTF-8");
 if (preg_match("~^[a-z]$~i", $fc)) {
     $class = ucfirst($class);
 } else {
-    $ac = new Answer();
-    $ac->p404();
+    $p404();
 }
 // есть ли файл с таким контроллером?
 if (file_exists(CTL_DIR.$class.".php") === false) {
-    $ac = new Answer();
-    $ac->p404();
+    $p404();
 }
 
 $conf = new Config();
@@ -67,9 +71,8 @@ $method = array_shift($parts);
 if (empty($method)) {
     $method = "index";
 }
-if (is_callable(array($c, $method)) == false) {
-    $ac = new Answer();
-    $ac->p404();
+if (is_callable([$c, $method]) == false) {
+    $p404();
 }
 
 switch (count($parts)) {
