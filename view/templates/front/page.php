@@ -24,9 +24,8 @@
                 <?php Hlp::a($a_image_dog,["class"=>"uk-button uk-button-default uk-button-small"]); ?>
             </div>
             
-            <h4>Ссылка на скачивание файла</h4>
-            <!-- вывод ссылки на скачивание файла -->
-            <p><?php Hlp::a($hello); ?></p>
+            <!-- так в шаблон можно включить элементы разметки из другого файла-->
+            <?php include BDIR."/view/templates/front/link.php"; ?>
             
             <h4>Заказать обратный звонок</h4>
             <!-- заготовка формы -->

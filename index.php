@@ -35,24 +35,24 @@ $uri = rawurldecode($uri);
 $uri = trim($uri, "/\\");
 // определяем название контроллера 
 if ($uri === "") {
-    $controller = "main";
+    $class = "main";
     $parts = [];
 } else  {
     // Нарезаем $uri в массив
     $parts = explode("/", $uri);
-    $controller = array_shift($parts);
+    $class = array_shift($parts);
 }
 
 // первый символ буква?
-$fc = mb_substr($controller, 0, 1, "UTF-8");
+$fc = mb_substr($class, 0, 1, "UTF-8");
 if (preg_match("~^[a-z]$~i", $fc)) {
-    $controller = ucfirst($controller);
+    $class = ucfirst($class);
 } else {
     $ac = new Answer();
     $ac->p404();
 }
 // есть ли файл с таким контроллером?
-if (file_exists(CTL_DIR.$controller.".php") === false) {
+if (file_exists(CTL_DIR.$class.".php") === false) {
     $ac = new Answer();
     $ac->p404();
 }
@@ -60,7 +60,7 @@ if (file_exists(CTL_DIR.$controller.".php") === false) {
 $conf = new Config();
 
 // вызов обнаруженного контроллера
-$class = $controller;
+
 $c = new $class($conf);
 
 $method = array_shift($parts);
