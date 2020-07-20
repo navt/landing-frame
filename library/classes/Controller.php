@@ -11,7 +11,7 @@ abstract class Controller {
         if (file_exists($path)) {
             include $path;
         } else {
-            trigger_error(__METHOD__.": Нет файла шаблона.", E_USER_ERROR);
+            throw new AppException(sprintf("Нет файла шаблона: %s", $path));
         }
         
     }
