@@ -7,7 +7,7 @@ class BController extends Controller {
 
     public function __construct(Config $conf) {
         $this->conf = $conf;
-        $this->db = $this->conf->getDB();
+        $this->db = $this->conf["DB"];
     }
 
 }

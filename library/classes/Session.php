@@ -8,6 +8,7 @@ class Session {
     }
     
     protected function tryRun() {
+        
         switch (session_status()) {
             case PHP_SESSION_DISABLED;
                 trigger_error(__METHOD__.": Механизм сессий отключен.", E_USER_ERROR);
@@ -16,27 +17,33 @@ class Session {
                 $name = strtoupper(str_replace([".", "-"], ["", ""], $_SERVER["SERVER_NAME"]));
                 session_name($name);
                 session_start(["cookie_lifetime" => $this->lifeTime]);
+                
                 // сессия жива, но ip адрес уже переменился - алярм!
-                // это будет работать и при динамическом ip-адресе, в этом случае
-                // нужна коррекция кода
+                // этот код будет срабатывать и при динамическом ip-адресе, в этом случае
+                // здесь нужна коррекция кода
                 if (isset($this->ip) && ($this->ip !== $_SERVER["REMOTE_ADDR"])) {
                     http_response_code(403);
                     exit("Ваш ip адрес внезапно изменился!");
                 }
+
                 if (!isset($this->ip)) {
                     $this->ip = $_SERVER["REMOTE_ADDR"];
                 }
+
                 break;
             default:           // PHP_SESSION_ACTIVE
                 break;
         }
+        
     }
     
     public function __get($name) {
         $this->tryRun();
+
         if (empty($_SESSION[$name])) {
             return null;
         }
+
         return $_SESSION[$name];
     }
     
@@ -59,9 +66,11 @@ class Session {
     public function destroy() {
         $this->tryRun();
         $_SESSION = [];
+
         if (ini_get("session.use_cookies")) {
             setcookie(session_name(), "", time()-3600, "/");
         }
+        
         session_destroy();
     }
 }

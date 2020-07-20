@@ -23,9 +23,11 @@ class Hlp {
     
     private static function compare($patterns, $ext) {
         foreach ($patterns as $pattern) {
+            
             if (preg_match($pattern, $ext)) {
                 return true;
             }
+
         }
         return false;
     }
@@ -33,9 +35,11 @@ class Hlp {
     // https://stackoverflow.com/questions/17316873/convert-array-to-an-ini-file
     public static function arr2ini(array $arr) {
         $out = "";
+
         foreach ($arr as $k => $v) {
             $out .= "$k=\"$v\"" . PHP_EOL;
         }
+
         return $out;
     }
     
@@ -59,9 +63,11 @@ class Hlp {
     
     private static function inside(array $attr) {
         $out = "";
+
         foreach ($attr as $k => $v) {
             $out .= " $k=\"$v\"";
         }
+        
         return $out;
     }
 }

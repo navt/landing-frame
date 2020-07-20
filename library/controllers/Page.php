@@ -2,12 +2,14 @@
 
 class Page extends BController {
     
+    public  $sess;
+    protected $user;
     private $table = "blocks";
     
     public function __construct($conf) {
         parent::__construct($conf);
-        $this->sess = $this->conf->getSession();
-        $this->user = $this->conf->getUser();
+        $this->sess = $this->conf["session"];
+        $this->user = $this->conf["users"];
     }
     
     private function check() {
@@ -54,10 +56,12 @@ class Page extends BController {
         $this->check();
         $fields = ["ucode", "dictum"];
         $data = $this->db->filterArray($_POST, $fields);
+        
         if ($data["ucode"] == "" || $data["dictum"] == "") {
             $this->sess->msg = "Поля должны быть заполнены";
             $this->jump("page/create/");
         }
+        
         $this->db->query("INSERT INTO ?n SET ?u", $this->table, $data);
         $this->jump("page/blocks/");
     }
@@ -71,6 +75,7 @@ class Page extends BController {
         if (preg_match("~(src=|href=)~", $row["dictum"], $matches)) {
             $flag = $matches[0];
             $attr = parse_ini_string($row["dictum"]);
+            
             switch ($flag) {
                 case "src=":
                     $absolute = BDIR. "/{$attr["src"]}";
@@ -79,9 +84,11 @@ class Page extends BController {
                     $absolute = BDIR. "/{$attr["href"]}";
                     break;
             }
+            
             if (file_exists($absolute)) {
                 unlink($absolute);
             }
+            
         }
 
         $this->db->query("DELETE FROM ?n WHERE id=?i", $this->table, $id);
@@ -99,21 +106,26 @@ class Page extends BController {
     public function saveFile() {
         $this->check();
         $data = $this->db->filterArray($_POST, ["ucode"]);
+        
         if ($data["ucode"] == "") {
             $this->sess->msg = "Поле ucode должно быть заполнено";
             $this->jump("page/create/");
         }
+        
         $file = (object)$_FILES["userfile"];
+        
         if ($file->error !== 0) {
             $this->sess->msg = "Код ошибки при загрузке файла $file->error";
             $this->jump("page/create/");
         }
-        if ($file->size > $this->conf->maxFileSize) {
-            $this->sess->msg = "Размер файла более {$this->conf->maxFileSize}";
+        
+        if ($file->size > $this->conf["maxFileSize"]) {
+            $this->sess->msg = "Размер файла более {$this->conf["maxFileSize"]}";
             $this->jump("page/create/");
         }
         // является файл изображением или файлом с разрешенным расширением
         $ext = pathinfo($file->name, PATHINFO_EXTENSION);
+        
         if (Hlp::isImage($ext) === true) {
             $dir = "files/images/";
         } elseif (Hlp::allowType($ext) === true) {

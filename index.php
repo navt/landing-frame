@@ -1,7 +1,7 @@
 <?php
 header ( 'Content-Type: text/html; charset= utf-8' );
 error_reporting(E_ALL);
-ini_set('display_errors', true);
+ini_set('display_errors', "1");
 
 $base = function() {
     $protocol = $_SERVER["REQUEST_SCHEME"];
@@ -12,7 +12,8 @@ $base = function() {
     } else {
         $protocol = "https://";
     }
-    return $protocol.$host."/";
+    
+    return sprintf("%s%s/", $protocol, $host);
 };
 
 define("BURI", $base());                        // url сайта со слешем
@@ -22,11 +23,13 @@ define("CLS_DIR", BDIR."/library/classes/");    // путь до директо�
 
 spl_autoload_register(function ($class) {
     $paths = [CTL_DIR, CLS_DIR];
+    
     foreach ($paths as $path) {
         if (file_exists($path = $path.$class.".php")) {
             include $path;
         }
     }
+    
 });
 
 // ошибка 404
@@ -51,6 +54,7 @@ if ($uri === "") {
 
 // первый символ буква?
 $fc = mb_substr($class, 0, 1, "UTF-8");
+
 if (preg_match("~^[a-z]$~i", $fc)) {
     $class = ucfirst($class);
 } else {
@@ -68,9 +72,11 @@ $conf = new Config();
 $c = new $class($conf);
 
 $method = array_shift($parts);
+
 if (empty($method)) {
     $method = "index";
 }
+
 if (is_callable([$c, $method]) == false) {
     $p404();
 }

@@ -18,9 +18,11 @@ class Main extends BController {
      * метод-заглушка эмулирует прием данных из формы
      */
     public function dummy() {
+        
         if (filter_input(INPUT_POST, "button") !== "send" || filter_input(INPUT_POST, "phone") === "") {
             $this->jump();
         }
+        
         // затем, проверка введённых в форму данных        
         // если данные из формы корректны то, например,
         // запись необходимых сведений в БД или отправка e-mail(sms) администратору.

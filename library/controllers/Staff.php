@@ -9,14 +9,16 @@ class Staff extends BController {
 
     public function __construct($conf) {
         parent::__construct($conf);
-        $this->sess = $this->conf->getSession();
-        $this->user = $this->conf->getUser();
+        $this->sess = $this->conf["session"];
+        $this->user = $this->conf["users"];
     }
     
     private function check() {
+        
         if ($this->user->isAdmin() === false) {
             $this->viewForm();
         }
+        
         $this->user->tokenLive();
     }
     
@@ -45,6 +47,7 @@ class Staff extends BController {
         } else {
             $this->sess->count++;
         }
+        
         if ($this->sess->count > 5) {
             sleep(1);
         }
@@ -55,6 +58,7 @@ class Staff extends BController {
         }
 
         $person = $this->db->getRow("SELECT * FROM ?n WHERE email=?s", $this->table, $email);
+        
         if ($person === null) {
             $this->sess->msg = $msg." #2";
             $this->viewForm();
@@ -76,9 +80,11 @@ class Staff extends BController {
     }
     
     public function viewForm() {
+        
         if ($this->user->isLogin()) {
             $this->jump("page/blocks/");
         }
+        
         $page = ["title" => "Вход", "description" => "", "keywords" => ""];
         $this->view(BDIR."/view/templates/back/head.php",$page);
         $this->view(BDIR."/view/templates/back/form.php", "");
@@ -111,20 +117,24 @@ class Staff extends BController {
         $data = $this->db->filterArray($_POST, $fields);
         $this->sess->inEmail = $data["email"];
         $this->sess->inHash = $data["hash"];
+        
         if (filter_var($data["email"], FILTER_VALIDATE_EMAIL) === false) {
             $this->sess->msg = "Некорректный e-mail: ".$data["email"];
             $this->jump("staff/create/");
         }
+        
         if ($data["hash"] === "") {
             $this->sess->msg = "Поле пароль обязательно для заполнения";
             $this->jump("staff/create/");
         } else {
             $data["hash"] = password_hash($data["hash"], PASSWORD_DEFAULT);
         }
+        
         if (in_array($data["role"], $this->roles) === false) {
             $this->sess->msg = "Необходимо выбрать роль";
             $this->jump("staff/create/");
         }
+        
         $this->db->query("INSERT INTO ?n SET ?u", $this->table, $data);
         $this->sess->inEmail = null;
         $this->sess->inHash = null;
@@ -159,10 +169,12 @@ class Staff extends BController {
             $this->sess->msg = "Некорректный e-mail: ".$data["email"];
             $this->jump("staff/edit/{$id}");
         }
+        
         if (in_array($data["role"], $this->roles) === false) {
             $this->sess->msg = "Необходимо выбрать роль";
             $this->jump("staff/edit/{$id}");
         }
+        
         $this->db->query("UPDATE ?n SET ?u WHERE id = ?i", $this->table, $data, $_POST['id']);
         $this->jump("staff/all/");
     }
@@ -183,12 +195,14 @@ class Staff extends BController {
         $fields = ["id", "hash"];
         $data = $this->db->filterArray($_POST, $fields);
         $id = (integer)$_POST['id'];
+        
         if ($data["hash"] === "") {
             $this->sess->msg = "Поле пароль обязательно для заполнения";
             $this->jump("staff/refresh/{$id}/");
         } else {
             $data["hash"] = password_hash($data["hash"], PASSWORD_DEFAULT);
         }
+        
         $this->db->query("UPDATE ?n SET ?u WHERE id = ?i", $this->table, $data, $_POST['id']);
         $this->jump("staff/all/");
     }

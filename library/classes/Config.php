@@ -1,55 +1,48 @@
 <?php
 
-class Config {
-    
-    private $data;
+class Config extends Pimple {
     
     public function __construct() {
-        $this->data = $this->fromFile();
+        parent::__construct();
+        $this->fromFile();
+        $this->init();
     }
     
     private function fromFile() {
         $file = BDIR."/library/config/config.php";
-        if (file_exists($file)) {
-            return include $file;
-        } else {
-            trigger_error(__METHOD__.": Нет файла конфигурации.", E_USER_ERROR);
-        }
-    }
-    
-    public function __get($key) {
-        if (empty($this->data[$key])) {
-            return null;
-        } 
-        return $this->data[$key];
-    }
-    
-    public function __set($key, $value) {
-        $this->data[$key] = $value;
-    }
-    
-    public function getDB() {
-        $opts = [
-            'host'    => $this->host,
-            'user'    => $this->user,
-            'pass'    => $this->pass,
-            'db'      => $this->db,
-            'charset' => $this->charset
-        ];
-
-        return new SafeMySQL($opts);
-    }
-    
-    public function getSession() {
-        $this->session = new Session($this->cookieLifeTime);
-        return $this->session;
-    }
-    
-    public function getUser() {
-        if (!isset($this->data["session"])) {
-            trigger_error(__METHOD__.": Без сессии не работает.", E_USER_ERROR);
+        
+        if (file_exists($file) === false) {
+            throw new AppException("Нет файла конфигурации для приложения.");
         }
         
-        return new Users($this->session);
+        $params = include $file;
+        
+        foreach ($params as $id => $value) {
+            $this[$id] = $value;
+        }
+
     }
+    
+    private function init() {
+        
+        $this["DB"] = $this->share(function($c) {
+            $opt = [
+                'host'    => $c["host"],
+                'user'    => $c["user"],
+                'pass'    => $c["pass"],
+                'db'      => $c["db"],
+                'charset' => $c["charset"]
+            ];
+            return new SafeMySQL($opt);
+        });
+        
+        $this["session"] = $this->share(function ($c) {
+            return new Session($c["cookieLifeTime"]);
+        });
+        
+        $this["users"] = function ($c) {
+            return new Users($c["session"]);
+        };
+    }
+    
 }
