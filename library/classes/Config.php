@@ -12,7 +12,7 @@ class Config extends Pimple {
         $file = BDIR."/library/config/config.php";
         
         if (file_exists($file) === false) {
-            throw new AppException("Нет файла конфигурации для приложения.");
+            throw new AppException(sprintf("Нет файла конфигурации: %s для приложения.", $file));
         }
         
         $params = include $file;
